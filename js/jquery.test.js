@@ -12,7 +12,9 @@ my$(document).ready(function(){
 			"http://farm5.staticflickr.com/4018/4570774063_648e4d08b0_b.jpg",
 			"http://farm3.staticflickr.com/2404/1823941067_814417d30a_o.jpg"
 		],
-		initPos:0
+		initPos:0,
+		timer:5000,
+		reverse:true
 		});
 		my$('#remove-pattern').attr('href','javascript:;');
 		my$('#remove-pattern').click(function(){

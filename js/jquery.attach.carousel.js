@@ -29,6 +29,8 @@
 		pattern:'<div></div>',
 		imagesSrc:[],
 		withPattern:true,
+		timer:false,
+		reverse:true,
 		_couterCarousel:0
 	};
 	$.carousel.services = {}
@@ -98,6 +100,8 @@
 				newCarousel.methods.movePanel($acLeft,newCarousel);
 			}
 			
+			newCarousel.settings._reverse = false;
+			
 			$('.back-'+newCarousel._name).click(function(){
 				var $pos = $(newCarousel._instance).attr('pos');
 				if($pos < 0){
@@ -105,6 +109,8 @@
 					var $acLeft = (100*$pos);
 					$(newCarousel._instance).attr('pos', $pos);
 					newCarousel.methods.movePanel($acLeft,newCarousel);
+				}else{
+					newCarousel.settings._reverse = false;
 				}
 			});
 			
@@ -116,9 +122,30 @@
 					var $acLeft = (100*$pos);
 					$(newCarousel._instance).attr('pos', $pos);
 					newCarousel.methods.movePanel($acLeft,newCarousel);
+				}else{
+					if(newCarousel.settings.reverse){
+						newCarousel.settings._reverse = true;
+					}else{
+						var $self = $(newCarousel._instance).find('.ui-carousel-container');
+						$self.css('left',0);
+						$(newCarousel._instance).attr('pos',0);
+						$(newCarousel._instance).find('.pager .count').html(1);
+						newCarousel.settings._reverse = false;
+					}
 				}
 			});
+			
+			if(newCarousel.settings.timer){
+				newCarousel.settings.intrevalID = setInterval(function(){newCarousel.methods.triggerMove(newCarousel)},newCarousel.settings.timer);	
+			}
 	
+		},
+		triggerMove:function(newCarousel){
+			if(!newCarousel.settings._reverse){
+				$('.next-'+newCarousel._name).trigger('click');
+			}else{
+				$('.back-'+newCarousel._name).trigger('click');
+			}
 		},
 		movePanel:function($acLeft,newCarousel){
 			var $pos = $(newCarousel._instance).attr('pos');
