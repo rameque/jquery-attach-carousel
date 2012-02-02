@@ -43,7 +43,7 @@
       <article id="portafolio" class="slider-wrapper span14">
         <div id="carousel" class="span16 carousel full"> </div>
       </article>
-      <div class="controls span13"><a href="#remove-pattern" id="remove-pattern" class="btn primary">Remove Pattern</a></div>
+      <div class="controls span13"><a href="#remove-pattern" id="remove-pattern" class="btn primary">Remove Pattern</a><span id="counter">Position onChange: 1</span></div>
     </section>
     <h3>Example Markup</h3>
     <pre class="prettyprint linenums">&lt;article id=&quot;portafolio&quot; class=&quot;slider-wrapper span14&quot;&gt;<br>    &lt;div id=&quot;carousel&quot; class=&quot;span16 carousel full&quot;&gt; &lt;/div&gt;<br>&lt;/article&gt;</pre>
@@ -65,10 +65,16 @@
                     ],
                     initPos:0,<br>                    linkBackCSS:'sprite-icons back',<br>                    linkNextCSS:'sprite-icons next',<br>                    patternCSS:'pattern',<br>                    pagerCSS:'pager',<br>                    linkback:'&lt;a href=&quot;#back&quot;&gt;&lt;/a&gt;',<br>                    linknext:'&lt;a href=&quot;#next&quot;&gt;&lt;/a&gt;',<br>                    container:'&lt;ul&gt;&lt;/ul&gt;',<br>                    iterator:'&lt;li&gt;&lt;/li&gt;',<br>                    pattern:'&lt;div&gt;&lt;/div&gt;',
                     timer:5000,
-                    reverse:true
+                    reverse:true,
+                    onChange:responseChange
               });
                     
             });
+            
+            
+            function responseChange(pos){
+                my$('#counter').html('Position onChange: '+pos);
+            }
 	</pre>
   </div>
 </div>

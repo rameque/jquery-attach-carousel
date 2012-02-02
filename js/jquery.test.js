@@ -14,7 +14,8 @@ my$(document).ready(function(){
 		],
 		initPos:0,
 		timer:5000,
-		reverse:true
+		reverse:true,
+		onChange:responseChange
 		});
 		my$('#remove-pattern').attr('href','javascript:;');
 		my$('#remove-pattern').click(function(){
@@ -32,3 +33,8 @@ my$(document).ready(function(){
 		prettyPrint();
 	
 });
+
+
+function responseChange(pos){
+	my$('#counter').html('Position onChange: '+pos);
+}

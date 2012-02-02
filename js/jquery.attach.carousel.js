@@ -31,7 +31,8 @@
 		withPattern:true,
 		timer:false,
 		reverse:true,
-		_couterCarousel:0
+		_couterCarousel:0,
+		onChange:function(){}
 	};
 	$.carousel.services = {}
 	
@@ -166,7 +167,8 @@
 						left:$acLeft+'%'
 					},1000,function(){});
 				}
-			}	
+			}
+			newCarousel.settings.onChange($posInt+1);	
 		}
 	};
 	
