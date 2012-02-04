@@ -12,8 +12,14 @@ my$(document).ready(function(){
 			"http://farm5.staticflickr.com/4018/4570774063_648e4d08b0_b.jpg",
 			"http://farm3.staticflickr.com/2404/1823941067_814417d30a_o.jpg"
 		],
+		scale:[
+			'100%',
+			'100%',
+			'50%',
+			'10%'
+		],
 		initPos:0,
-		timer:5000,
+		//timer:5000,
 		reverse:true,
 		onChange:responseChange
 		});

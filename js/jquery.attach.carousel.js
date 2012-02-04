@@ -32,6 +32,7 @@
 		timer:false,
 		reverse:true,
 		_couterCarousel:0,
+		scale:[],
 		onChange:function(){}
 	};
 	$.carousel.services = {}
@@ -67,9 +68,7 @@
 				$(instance.settings.listIterator).each(function(item,value){
 					instance.methods.drawImages(item,value,instance);
 				});
-				
 				instance.methods.validateCarouselUI(instance);
-	
 		},
 		drawImages:function(item,value,newCarousel){
 			var src = newCarousel.settings.imagesSrc[item];
@@ -81,6 +80,16 @@
 					$(this).fadeIn();
 					$(value).append(this);
 					$(this).parent().find('.preloader').remove();
+					var long = newCarousel.settings.scale.length;
+					if(long> 1){
+						var val = newCarousel.settings.scale[item];
+						var fVal = (val) ? val : 'auto';
+						var midValue =  (100 - parseFloat(fVal))/2;
+						if(fVal){
+							$(this).css('margin-left',midValue+'%');
+							$(this).css('width',fVal);
+						}
+					}
 				});			
 		},
 		validateCarouselUI:function(newCarousel){

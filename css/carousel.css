@@ -95,4 +95,11 @@ a.ui-carousel-next:hover{
 }
 .ui-iterator img{
 	width:100%;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	
+	-webkit-box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.30);
+	-moz-box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.30);
+	box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.30); 
 }
