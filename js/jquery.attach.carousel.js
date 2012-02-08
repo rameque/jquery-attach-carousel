@@ -33,7 +33,8 @@
 		reverse:true,
 		_couterCarousel:0,
 		scale:[],
-		onChange:function(){}
+		onChange:function(){},
+		goto:0
 	};
 	$.carousel.services = {}
 	
@@ -178,6 +179,9 @@
 				}
 			}
 			newCarousel.settings.onChange($posInt+1);	
+		},
+		goto:function(){
+			cosnole.log('goto');
 		}
 	};
 	
@@ -193,6 +197,17 @@
 			});
 		}else if(typeof options === 'object'){
 			return $.carousel.methods.init.apply(this, arguments);
+		}else if(typeof options == 'string'){
+			
+			var instance = this;
+			
+			$.each(window.scrollbars,function(item,value){
+				var id  = $(this).attr('id');
+				if(id == value.name){
+					instance = value;	
+				}
+			})
+			return instance.methods[options].apply(this, [instance]);
 		}else{
 			$.error('Method ' + method + ' does not exist on jQuery.tooltip');
 		}
