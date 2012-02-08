@@ -201,7 +201,7 @@
 			
 			var instance = this;
 			
-			$.each(window.scrollbars,function(item,value){
+			$.each(window.carousel,function(item,value){
 				var id  = $(this).attr('id');
 				if(id == value.name){
 					instance = value;	
