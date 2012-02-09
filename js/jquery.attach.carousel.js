@@ -10,7 +10,7 @@
 		this.methods = $.carousel.methods;
 		$.extend(this.settings,options); 
 		return name;
-	}
+	};
 	
 	$.carousel = {};
 	$.carousel.settings = {
@@ -34,42 +34,43 @@
 		_couterCarousel:0,
 		scale:[],
 		onChange:function(){},
-		goto:0
+		slide:0
 	};
-	$.carousel.services = {}
+	$.carousel.services = {};
 	
 	$.carousel.methods = {
 		init : function(instance) {
-				instance.settings.drawItem = true;
-				$(instance._instance).css('overflow','hidden');
-				
-				var linkBack = $(instance.settings.linkback).addClass(instance.settings.linkBackCSS).addClass('ui-carousel-back back-'+instance._name);
-				var containerUl = instance.settings._container = $(instance.settings.container).addClass('ui-carousel-container container-'+instance._name);
-				var pattern = $(instance.settings.pattern).addClass(instance.settings.patternCSS).addClass('ui-carousel-pattern pattern-'+instance._name);
-				var linkNext = $(instance.settings.linknext).addClass(instance.settings.linkNextCSS).addClass('ui-carousel-next next-'+instance._name);
+							
+					instance.settings.drawItem = true;
+					$(instance._instance).css('overflow','hidden');
+					
+					var linkBack = $(instance.settings.linkback).addClass(instance.settings.linkBackCSS).addClass('ui-carousel-back back-'+instance._name);
+					var containerUl = instance.settings._container = $(instance.settings.container).addClass('ui-carousel-container container-'+instance._name);
+					var pattern = $(instance.settings.pattern).addClass(instance.settings.patternCSS).addClass('ui-carousel-pattern pattern-'+instance._name);
+					var linkNext = $(instance.settings.linknext).addClass(instance.settings.linkNextCSS).addClass('ui-carousel-next next-'+instance._name);
+		
+					instance.settings._limitImages = instance.settings.imagesSrc.length -1;
+					
+					for(var i=0; i <= instance.settings._limitImages; i++){
+						var position = i*100;
+						var it = $(instance.settings.iterator).addClass('ui-iterator ui-iterator-'+instance._name).css('left',position+'%').append("<div class='preloader'></div>");
+						$(containerUl).append(it);
+					}
 	
-				instance.settings._limitImages = instance.settings.imagesSrc.length -1;
-				
-				for(var i=0; i <= instance.settings._limitImages; i++){
-					var position = i*100;
-					var it = $(instance.settings.iterator).addClass('ui-iterator ui-iterator-'+instance._name).css('left',position+'%').append("<div class='preloader'></div>");
-					$(containerUl).append(it);
-				}
-
-				$(instance._instance).append(linkBack);
-				$(instance._instance).append($(containerUl));
-				$(instance._instance).append(pattern);
-				$(instance._instance).append(linkNext);
-				
-				if(instance.settings.pager){
-					$(instance._instance).append('<div class="'+instance.settings.pagerCSS+'"><span class="count">1</span>/<span class="total">'+instance.settings.imagesSrc.length+'</span></div>')
-				}
-				instance.settings.listIterator = $(containerUl).find('.ui-iterator-'+instance._name);
-				
-				$(instance.settings.listIterator).each(function(item,value){
-					instance.methods.drawImages(item,value,instance);
-				});
-				instance.methods.validateCarouselUI(instance);
+					$(instance._instance).append(linkBack);
+					$(instance._instance).append($(containerUl));
+					$(instance._instance).append(pattern);
+					$(instance._instance).append(linkNext);
+					
+					if(instance.settings.pager){
+						$(instance._instance).append('<div class="'+instance.settings.pagerCSS+'"><span class="count">1</span>/<span class="total">'+instance.settings.imagesSrc.length+'</span></div>');
+					}
+					instance.settings.listIterator = $(containerUl).find('.ui-iterator-'+instance._name);
+					
+					$(instance.settings.listIterator).each(function(item,value){
+						instance.methods.drawImages(item,value,instance);
+					});
+					instance.methods.validateCarouselUI(instance);
 		},
 		drawImages:function(item,value,newCarousel){
 			var src = newCarousel.settings.imagesSrc[item];
@@ -78,11 +79,13 @@
 				img.src = src;
 				
 				$(img).load(function(options){
+					var longitude = newCarousel.settings.scale.length;
+					
 					$(this).fadeIn();
 					$(value).append(this);
 					$(this).parent().find('.preloader').remove();
-					var long = newCarousel.settings.scale.length;
-					if(long> 1){
+					
+					if(longitude > 1){
 						var val = newCarousel.settings.scale[item];
 						var fVal = (val) ? val : 'auto';
 						var midValue =  (100 - parseFloat(fVal))/2;
@@ -100,7 +103,7 @@
 				var position = counter * 100;
 				$this.css('left',position+'%');
 				counter++;
-			})
+			});
 			
 			newCarousel.settings._limitImages = counter-1;
 			
@@ -127,7 +130,7 @@
 			
 			$('.next-'+newCarousel._name).click(function(){
 				var $pos = $(newCarousel._instance).attr('pos');
-				var $posInt = parseInt($pos)*(-1);
+				var $posInt = parseInt($pos,10)*(-1);
 				if(($pos <= 0) && $posInt < newCarousel.settings._limitImages){
 					$pos--;
 					var $acLeft = (100*$pos);
@@ -147,7 +150,7 @@
 			});
 			
 			if(newCarousel.settings.timer){
-				newCarousel.settings.intrevalID = setInterval(function(){newCarousel.methods.triggerMove(newCarousel)},newCarousel.settings.timer);	
+				newCarousel.settings.intrevalID = setInterval(function(){newCarousel.methods.triggerMove(newCarousel);},newCarousel.settings.timer);	
 			}
 	
 		},
@@ -160,7 +163,7 @@
 		},
 		movePanel:function($acLeft,newCarousel){
 			var $pos = $(newCarousel._instance).attr('pos');
-			var $posInt = parseInt($pos)*(-1);
+			var $posInt = parseInt($pos,10)*(-1);
 			$(newCarousel._instance).find('.pager .count').html($posInt + 1);
 			
 			var $self = $(newCarousel._instance).find('.ui-carousel-container');
@@ -180,39 +183,80 @@
 			}
 			newCarousel.settings.onChange($posInt+1);	
 		},
-		goto:function(){
-			cosnole.log('goto');
+		gotoSlide:function(params){
+			var newPos = parseFloat(params.instance.settings.slide) - 1;
+			var newCarousel = params.instance;
+			var $pos = newPos * (-1);
+			var moveto = (newPos * 100)*(-1);
+			var $self = $(newCarousel._instance).find('.ui-carousel-container');
+			
+			$(newCarousel._instance).find('.pager .count').html(params.instance.settings.slide);
+			$(newCarousel._instance).attr('pos',$pos);
+			
+			if(($pos <= 0) && newPos < newCarousel.settings._limitImages){
+				if(!newCarousel.settings.transition){
+					$self.css('left',$acLeft+'%');
+				}else{
+					if(jQuery.easing.easeInBack){
+						$($self).stop().animate({
+							left:moveto+'%'
+						},{duration:1000 , easing:'easeOutExpo'});
+					}else{
+						$($self).stop().animate({
+							left:moveto+'%'
+						},1000,function(){});
+					}
+				}
+			}
 		}
 	};
 	
-	
 	$.fn.carousel = function(options) {
+		
+		var __instance = this;
+		
+		__instance.existCarousel = function(){
+			var $this = $(__instance);
+			var instance = __instance;
+			$.each(window.carousel,function(item,value){
+				var id  = ($this.attr('id'))?$this.attr('id') : $this.attr('class').replace(/ /g,"_");
+				if(id == value._name){
+					instance = value;	
+				}
+			});
+			return instance;
+		};
 	
 		if(typeof options != 'string'){
 			var instOptions = $.extend({},$.carousel.settings,options);
-			return this.each(function () {
-				var instance = new carouselClass($(this), instOptions);
-				window.carousel.push(instance);
-				instance.methods.init(instance);
-			});
-		}else if(typeof options === 'object'){
-			return $.carousel.methods.init.apply(this, arguments);
-		}else if(typeof options == 'string'){
-			
 			var instance = this;
 			
-			$.each(window.carousel,function(item,value){
-				var id  = $(this).attr('id');
-				if(id == value.name){
-					instance = value;	
+			return this.each(function () {
+				var $this = $(this);
+				if($this.attr('carousel') == 'created'){
+					instance = __instance.existCarousel();
+					$.extend(instance.settings,options); 
+				}else{
+					instance = new carouselClass($this, instOptions);
+					$this.attr('carousel','created');
+					window.carousel.push(instance);
+					instance.methods.init(instance);
 				}
-			})
-			return instance.methods[options].apply(this, [instance]);
+			});
+		}else if(typeof options == 'string'){
+			instance = __instance.existCarousel();
+			var objectParams = {};
+			objectParams.instance = instance;
+			objectParams.options = options;
+			return instance.methods[options].apply(__instance, [objectParams]);
 		}else{
 			$.error('Method ' + method + ' does not exist on jQuery.tooltip');
 		}
 		
+		return false;
 	};
+	
+	
 })(jQuery);
 
 var attachCarousel = (function() {

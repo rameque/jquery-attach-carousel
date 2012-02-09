@@ -35,11 +35,16 @@ my$(document).ready(function(){
 			}
 			
 		});
+		my$('#goto').attr('href','javascript:;');
+		my$('#goto').click(function(){
+			my$('#carousel').carousel({slide:position}).carousel('gotoSlide');
+		});
 		
 		prettyPrint();
 	
 });
 
+var position = 4;
 
 function responseChange(pos){
 	my$('#counter').html('Position onChange: '+pos);
