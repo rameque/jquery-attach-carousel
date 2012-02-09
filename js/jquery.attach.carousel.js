@@ -85,6 +85,8 @@
 					$(value).append(this);
 					$(this).parent().find('.preloader').remove();
 					
+					$(this).css('height','auto');
+					
 					if(longitude > 1){
 						var val = newCarousel.settings.scale[item];
 						var fVal = (val) ? val : 'auto';
