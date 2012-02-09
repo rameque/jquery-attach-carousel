@@ -193,7 +193,7 @@
 			$(newCarousel._instance).find('.pager .count').html(params.instance.settings.slide);
 			$(newCarousel._instance).attr('pos',$pos);
 			
-			if(($pos <= 0) && newPos < newCarousel.settings._limitImages){
+			if(($pos <= 0) && newPos < (newCarousel.settings._limitImages +1)){
 				if(!newCarousel.settings.transition){
 					$self.css('left',$acLeft+'%');
 				}else{
@@ -207,6 +207,8 @@
 						},1000,function(){});
 					}
 				}
+				
+				newCarousel.settings.onChange(params.instance.settings.slide);
 			}
 		}
 	};

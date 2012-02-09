@@ -44,7 +44,7 @@ my$(document).ready(function(){
 	
 });
 
-var position = 4;
+var position = 6;
 
 function responseChange(pos){
 	my$('#counter').html('Position onChange: '+pos);
