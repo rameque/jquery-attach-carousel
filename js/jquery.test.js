@@ -19,9 +19,10 @@ my$(document).ready(function(){
 			'10%'
 		],
 		initPos:0,
-		//timer:5000,
+		timer:5000,
 		reverse:true,
-		onChange:responseChange
+		onChange:responseChange,
+		stopOver:true
 		});
 		my$('#remove-pattern').attr('href','javascript:;');
 		my$('#remove-pattern').click(function(){

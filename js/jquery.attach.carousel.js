@@ -117,8 +117,22 @@
 			}
 			
 			newCarousel.settings._reverse = false;
+
+			console.log(newCarousel);
+
+			if(newCarousel.settings.stopOver){
+				$(newCarousel._instance).mouseenter(function(){
+					clearInterval(newCarousel.settings.intrevalID);
+				}).mouseleave(function(){
+					if(newCarousel.settings.timer){
+						clearInterval(newCarousel.settings.intrevalID);
+						newCarousel.settings.intrevalID = setInterval(function(){newCarousel.methods.triggerMove(newCarousel);},newCarousel.settings.timer);	
+					}
+				});
+			}
 			
 			$('.back-'+newCarousel._name).click(function(){
+				clearInterval(newCarousel.settings.intrevalID);
 				var $pos = $(newCarousel._instance).attr('pos');
 				if($pos < 0){
 					$pos++;
@@ -128,9 +142,13 @@
 				}else{
 					newCarousel.settings._reverse = false;
 				}
+				if(newCarousel.settings.timer){
+					newCarousel.settings.intrevalID = setInterval(function(){newCarousel.methods.triggerMove(newCarousel);},newCarousel.settings.timer);	
+				}
 			});
 			
 			$('.next-'+newCarousel._name).click(function(){
+				clearInterval(newCarousel.settings.intrevalID);
 				var $pos = $(newCarousel._instance).attr('pos');
 				var $posInt = parseInt($pos,10)*(-1);
 				if(($pos <= 0) && $posInt < newCarousel.settings._limitImages){
@@ -149,12 +167,14 @@
 						newCarousel.settings._reverse = false;
 					}
 				}
+				if(newCarousel.settings.timer){
+					newCarousel.settings.intrevalID = setInterval(function(){newCarousel.methods.triggerMove(newCarousel);},newCarousel.settings.timer);	
+				}
 			});
-			
+
 			if(newCarousel.settings.timer){
 				newCarousel.settings.intrevalID = setInterval(function(){newCarousel.methods.triggerMove(newCarousel);},newCarousel.settings.timer);	
 			}
-	
 		},
 		triggerMove:function(newCarousel){
 			if(!newCarousel.settings._reverse){
