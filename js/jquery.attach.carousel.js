@@ -117,9 +117,6 @@
 			}
 			
 			newCarousel.settings._reverse = false;
-
-			console.log(newCarousel);
-
 			if(newCarousel.settings.stopOver){
 				$(newCarousel._instance).mouseenter(function(){
 					clearInterval(newCarousel.settings.intrevalID);
